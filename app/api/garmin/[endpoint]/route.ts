@@ -35,8 +35,12 @@ export async function GET(
     const { token, secret } = getAccessToken()
     const client = createGarminClient(token, secret)
 
-    // @ts-ignore — dynamic dispatch por nome
-    const data = await client[endpoint](start, end)
+    if (!(endpoint in client)) {
+      return NextResponse.json({ error: 'Endpoint inválido' }, { status: 400 })
+    }
+
+    const handler = client[endpoint as keyof typeof client]
+    const data = await handler(start, end)
 
     return NextResponse.json(data)
   } catch (error: unknown) {
