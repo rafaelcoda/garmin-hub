@@ -1,16 +1,10 @@
-/**
- * app/api/ai/analyze/route.ts
- * Envia métricas do usuário para Claude e retorna análise em português.
- */
-
 import { NextResponse } from 'next/server'
 import { isAuthenticated } from '@/lib/session'
 
 export async function POST(request: Request) {
-  if (!isAuthenticated()) {
+  if (!(await isAuthenticated())) {
     return NextResponse.json({ error: 'Não autenticado' }, { status: 401 })
   }
-
   const body = await request.json()
   const { metrics, question } = body as { metrics: unknown; question?: string }
 
@@ -38,10 +32,8 @@ Formate a resposta em markdown com seções curtas.`
         messages: [{ role: 'user', content: userPrompt }],
       }),
     })
-
     const data = await res.json()
     const text = data.content?.[0]?.text ?? 'Não foi possível gerar análise.'
-
     return NextResponse.json({ analysis: text })
   } catch (error) {
     console.error('[ai/analyze]', error)
