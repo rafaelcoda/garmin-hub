@@ -1,9 +1,5 @@
-import { isAuthenticated } from '@/lib/session'
-import { redirect } from 'next/navigation'
 import AppShell from '@/components/layout/AppShell'
 import ActivitiesClient from './ActivitiesClient'
-
-export default async function ActivitiesPage() {
-  if (!(await isAuthenticated())) redirect('/')
+export default function ActivitiesPage() {
   return <AppShell><ActivitiesClient /></AppShell>
 }
