@@ -93,7 +93,7 @@ export function createGarminClient(accessToken: string, accessTokenSecret: strin
     const requestData = { url, method: 'GET' }
     const headers     = oauth.toHeader(oauth.authorize(requestData, token))
 
-    const config: AxiosRequestConfig = { headers, params }
+    const config: AxiosRequestConfig = { headers: headers as Record<string, string>, params }
     const res = await axios.get<T>(url, config)
     return res.data
   }
