@@ -35,7 +35,7 @@ export async function GET(
     const { token, secret } = getAccessToken()
     const client = createGarminClient(token, secret)
 
-    // @ts-expect-error — dynamic dispatch por nome
+    // @ts-ignore — dynamic dispatch por nome
     const data = await client[endpoint](start, end)
 
     return NextResponse.json(data)
