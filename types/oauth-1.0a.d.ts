@@ -18,6 +18,7 @@ declare module 'oauth-1.0a' {
 
   interface OAuthHeader {
     Authorization: string
+    [key: string]: string
   }
 
   class OAuth {
